@@ -1,12 +1,16 @@
-# SLGenericsNineView
-1.使用pod集成
-```pod 'SLGenericsNineView'
-```
+//
+//  ViewController.swift
+//  test
+//
+//  Created by 倪申雷 on 2018/3/8.
+//  Copyright © 2018年 倪申雷. All rights reserved.
+//
 
-2.使用
+import UIKit
+import SLGenericsNineView
+class ViewController: UIViewController {
 
-```
-var demoView:SLGenericsNineView<CustomView,CustomModel>!
+    var demoView:SLGenericsNineView<CustomView,CustomModel>!
     override func viewDidLoad() {
         super.viewDidLoad()
         // 创建的时候一定要告诉view的宽度
@@ -40,5 +44,12 @@ var demoView:SLGenericsNineView<CustomView,CustomModel>!
         
         // Do any additional setup after loading the view, typically from a nib.
     }
-```
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+
+
+}
 
