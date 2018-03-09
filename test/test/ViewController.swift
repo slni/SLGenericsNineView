@@ -30,6 +30,11 @@ class ViewController: UIViewController {
         demoView.horizontalSpace = 10
         // 每行显示的个数
         demoView.everyRowCount = 3
+        demoView.itemClicked = { (itemView, itemModel, index) in
+            print(itemView)
+            print(itemModel)
+            print(index)
+        }
         self.view.addSubview(demoView)
         // 设置数据源
         let m1 = CustomModel(name: "张三", count: "1")
