@@ -23,6 +23,11 @@
 
 
 ### Usage
+> 通过泛型的思想完成九宫格布局，所有边距，大小可自定义。可传入自定义的view，自定义的model。通过map函数完成view和model的值对应关系。
+
+
+<img src="https://github.com/slni/SLGenericsNineView/blob/master/demoPic.png?raw=true" alt="SLGenericsNineView" title="SLGenericsNineView" width="557"/>
+
 
 ```
 import SLGenericsNineView
