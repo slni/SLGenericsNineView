@@ -1,4 +1,3 @@
-# SLGenericsNineView
 
 <img src="https://github.com/slni/SLGenericsNineView/blob/master/sreen.png?raw=true" alt="SLGenericsNineView" title="SLGenericsNineView"/>
 
