@@ -30,6 +30,23 @@
 
 <img src="https://github.com/slni/SLGenericsNineView/blob/master/demoPic.png?raw=true" alt="SLGenericsNineView" title="SLGenericsNineView" width="557"/>
 
+用户可设置的参数：
+
+* topMargin    （上边距）
+* leftMargin   （左边距）
+* rightMargin  （右边距）
+* bottomMargin （底边距）
+* horizontalSpace  （水平间距）
+* verticalSpace    （垂直间距）
+* everyRowCount （每行显示的个数）
+* itemHeight （item高度）
+* totalWidth  （控件总宽度）
+
+会根据用户设置参数，自动计算出以下值：
+
+* itemWidth  （item宽度）
+* totalHeight （控件总高度）
+
 
 ```
 import SLGenericsNineView
@@ -69,6 +86,11 @@ override func viewDidLoad() {
 	// 数据刷新(数据变化)
 	demoView.reloadData()	    
 }
+```
+
+```
+// 自定义view和自定义model直接关联赋值显示的闭包
+private var map:((_ cell:ItemView, _ itemModel:ItemModel)->Void)
 ```
 
 ```
