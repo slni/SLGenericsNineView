@@ -10,7 +10,7 @@
 <details>
 <summary>CocoaPods</summary>
 </br>
-<p>To integrate SwifterSwift into your Xcode project using <a href="http://cocoapods.org">CocoaPods</a>, specify it in your <code>Podfile</code>:</p>
+<p>To integrate SLGenericsNineView into your Xcode project using <a href="http://cocoapods.org">CocoaPods</a>, specify it in your <code>Podfile</code>:</p>
 
 <h4>- Integrate:</h4>
 <pre><code class="ruby language-ruby">pod 'SLGenericsNineView'</code></pre>
