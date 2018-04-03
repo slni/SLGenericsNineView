@@ -56,7 +56,7 @@ public class SLGenericsNineView<ItemView:UIView, ItemModel>: UIView {
     public var itemHeight:CGFloat = 80
     public var itemWidth:CGFloat{
         get{
-            let everyRowBtnsWidth = totalWidth - CGFloat(everyRowCount+1)*horizontalSpace - leftMargin - rightMargin
+            let everyRowBtnsWidth = totalWidth - CGFloat(everyRowCount-1)*horizontalSpace - leftMargin - rightMargin
             return everyRowBtnsWidth/CGFloat(everyRowCount)
         }
     }
@@ -74,7 +74,7 @@ public class SLGenericsNineView<ItemView:UIView, ItemModel>: UIView {
         }else{
             rowCount = count / everyRowCount + 1
         }
-        let height = itemHeight*CGFloat(rowCount) + verticalSpace*CGFloat(rowCount+1) + topMargin + bottomMargin
+        let height = itemHeight*CGFloat(rowCount) + verticalSpace*CGFloat(rowCount-1) + topMargin + bottomMargin
         return height
     }
     
@@ -91,8 +91,8 @@ public class SLGenericsNineView<ItemView:UIView, ItemModel>: UIView {
             
             let btn = ItemView.init()
             btn.tag = i
-            let x = CGFloat(itemX + 1)*horizontalSpace + CGFloat(itemX)*itemWidth + leftMargin
-            let y = CGFloat(itemY + 1)*verticalSpace + CGFloat(itemY)*itemHeight + topMargin
+            let x = CGFloat(itemX)*horizontalSpace + CGFloat(itemX)*itemWidth + leftMargin
+            let y = CGFloat(itemY)*verticalSpace + CGFloat(itemY)*itemHeight + topMargin
             btn.frame = CGRect(x: x, y: y, width: self.itemWidth, height: self.itemHeight)
             self.addSubview(btn)
             
