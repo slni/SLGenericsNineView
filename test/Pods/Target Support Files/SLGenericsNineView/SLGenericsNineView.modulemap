@@ -1,6 +1,0 @@
-framework module SLGenericsNineView {
-  umbrella header "SLGenericsNineView-umbrella.h"
-
-  export *
-  module * { export * }
-}

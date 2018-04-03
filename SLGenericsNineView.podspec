@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "SLGenericsNineView"
-  s.version      = "1.0"
+  s.version      = "1.1"
   s.summary      = "泛型九宫格布局"
   s.description  = <<-DESC 
                     通过泛型的思想，对九宫格布局的代码进行封装，更简单的九宫格布局控件。
