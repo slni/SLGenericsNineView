@@ -9,7 +9,6 @@
 import UIKit
 
 public class SLGenericsNineView<ItemView:UIView, ItemModel>: UIView {
-    
     /// 数据源
     public var dataArr:[ItemModel]?{
         didSet{
@@ -31,7 +30,8 @@ public class SLGenericsNineView<ItemView:UIView, ItemModel>: UIView {
             creatAllItems()
         }
     }
-    /// 每个item点击以后的回调闭包
+    
+    /// 每个cell点击以后的回调闭包
     public var itemClicked:((_ itemView:ItemView, _ model:ItemModel, _ index:Int)->Void)?
     
     private var map:((_ cell:ItemView, _ itemModel:ItemModel)->Void)
@@ -43,27 +43,41 @@ public class SLGenericsNineView<ItemView:UIView, ItemModel>: UIView {
         super.init(frame: frame)
         self.backgroundColor = UIColor.gray
     }
-    
+    /// 上边距
     public var topMargin:CGFloat    = 0
+    /// 左边距
     public var leftMargin:CGFloat   = 0
+    /// 右边距
     public var rightMargin:CGFloat  = 0
+    /// 下边距
     public var bottomMargin:CGFloat = 0
-    // 水平方向 间距
+    /// 设置边距
+    public func set(edges:CGFloat){
+        self.topMargin    = edges
+        self.bottomMargin = edges
+        self.leftMargin   = edges
+        self.rightMargin  = edges
+    }
+    /// 水平间距
     public var horizontalSpace:CGFloat = 1
-    // 垂直方向 间距
+    /// 垂直间距
     public var verticalSpace:CGFloat   = 1
+    /// 每行展示的个数
     public var everyRowCount:Int = 3
+    /// cell高度
     public var itemHeight:CGFloat = 80
+    /// cell宽度
     public var itemWidth:CGFloat{
         get{
             let everyRowBtnsWidth = totalWidth - CGFloat(everyRowCount-1)*horizontalSpace - leftMargin - rightMargin
             return everyRowBtnsWidth/CGFloat(everyRowCount)
         }
     }
-    
+    /// 整体宽度
     public var totalWidth:CGFloat{
         return self.frame.width
     }
+    /// 整体高度
     public var totalHeight:CGFloat{
         guard let count = dataArr?.count else{
             return 0
@@ -85,17 +99,14 @@ public class SLGenericsNineView<ItemView:UIView, ItemModel>: UIView {
         }
         self.removeAllSubviews()
         for ( i, data ) in data.enumerated(){
-            
             let itemX = i % everyRowCount     //  处于第几列
             let itemY = i / everyRowCount     //  处于第几行
-            
             let btn = ItemView.init()
             btn.tag = i
             let x = CGFloat(itemX)*horizontalSpace + CGFloat(itemX)*itemWidth + leftMargin
             let y = CGFloat(itemY)*verticalSpace + CGFloat(itemY)*itemHeight + topMargin
             btn.frame = CGRect(x: x, y: y, width: self.itemWidth, height: self.itemHeight)
             self.addSubview(btn)
-            
             self.map(btn, data)
             // 添加点击手势
             let tap = UITapGestureRecognizer(target: self, action:#selector(SLGenericsNineView.cellClicked(_:)))
@@ -105,10 +116,6 @@ public class SLGenericsNineView<ItemView:UIView, ItemModel>: UIView {
         }
         // 更新自身高度
         let size = CGSize(width: self.bounds.width, height: self.totalHeight)
-        // 在首页布局,发现frame的Y值变动了...
-        // 理论上来说,就应该来修改frame,而不应该修改bounds
-        // bounds影响的是自身子控件的坐标系,而我们的目标是修改自身在父控件的大小...
-        // self.bounds.size = size
         self.frame.size = size
     }
     
