@@ -10,17 +10,25 @@ import UIKit
 
 class CustomView: UIView {
 
-    var nameLabel:UILabel!
-    var countLabel:UILabel!
+    lazy var nameLabel:UILabel = {
+       let label = UILabel()
+       label.textAlignment = .center
+       label.textColor = UIColor.black
+       label.font = UIFont.systemFont(ofSize: 18)
+       return label
+    }()
+    lazy var countLabel:UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.textColor = UIColor.red
+        label.font = UIFont.systemFont(ofSize: 25)
+        return label
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = UIColor.yellow
-        nameLabel = UILabel()
-        nameLabel.textAlignment = .center
         self.addSubview(nameLabel)
-        countLabel = UILabel()
-        countLabel.textAlignment = .center
         self.addSubview(countLabel)
     }
     

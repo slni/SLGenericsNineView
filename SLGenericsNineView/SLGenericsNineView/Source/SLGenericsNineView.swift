@@ -9,13 +9,14 @@
 import UIKit
 
 public class SLGenericsNineView<ItemView:UIView, ItemModel>: UIView {
+    /// cell是否从xib中加载的
+    public var isCellLoadFromXib = false
     /// 数据源
     public var dataArr:[ItemModel]?{
         didSet{
             self.reloadData()
         }
     }
-    
     /// 刷新列表数据
     public func reloadData(){
         if dataArr?.count == self.subviews.count{
@@ -30,11 +31,8 @@ public class SLGenericsNineView<ItemView:UIView, ItemModel>: UIView {
             creatAllItems()
         }
     }
-    
     /// 每个cell点击以后的回调闭包
     public var itemClicked:((_ itemView:ItemView, _ model:ItemModel, _ index:Int)->Void)?
-    
-    private var map:((_ cell:ItemView, _ itemModel:ItemModel)->Void)
     /// - Parameters:
     ///   - frame: 控件的frame,请确定控件的width
     ///   - map:映射函数,控件和模型直接的数据赋值关系
@@ -92,6 +90,16 @@ public class SLGenericsNineView<ItemView:UIView, ItemModel>: UIView {
         return height
     }
     
+    private var map:((_ cell:ItemView, _ itemModel:ItemModel)->Void)
+    
+    private func initCell() -> ItemView{
+        if isCellLoadFromXib{
+            return Bundle.main.loadNibNamed(ItemView.nameOfClass, owner: nil, options: nil)?.last as! ItemView
+        }else{
+            return ItemView.init()
+        }
+    }
+    
     private func creatAllItems(){
         guard let data = self.dataArr else{
             self.removeAllSubviews()
@@ -101,7 +109,7 @@ public class SLGenericsNineView<ItemView:UIView, ItemModel>: UIView {
         for ( i, data ) in data.enumerated(){
             let itemX = i % everyRowCount     //  处于第几列
             let itemY = i / everyRowCount     //  处于第几行
-            let btn = ItemView.init()
+            let btn = self.initCell()
             btn.tag = i
             let x = CGFloat(itemX)*horizontalSpace + CGFloat(itemX)*itemWidth + leftMargin
             let y = CGFloat(itemY)*verticalSpace + CGFloat(itemY)*itemHeight + topMargin
@@ -118,18 +126,15 @@ public class SLGenericsNineView<ItemView:UIView, ItemModel>: UIView {
         let size = CGSize(width: self.bounds.width, height: self.totalHeight)
         self.frame.size = size
     }
-    
     // 手势的点击事件
     @objc func cellClicked(_ tap:UITapGestureRecognizer){
         if let cell = tap.view as? ItemView, let data = self.dataArr?[cell.tag]{
             self.itemClicked?(cell, data, cell.tag)
         }
     }
-    
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }
 
 

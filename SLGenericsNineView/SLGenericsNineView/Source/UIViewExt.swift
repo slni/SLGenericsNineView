@@ -15,5 +15,11 @@ extension UIView{
             self.subviews.last?.removeFromSuperview()
         }
     }
-    
+}
+
+extension NSObject{
+    /// 获取类名字符串
+    static var nameOfClass: String {
+        return NSStringFromClass(self).components(separatedBy: ".").last! as String
+    }
 }
