@@ -125,6 +125,7 @@ public class SLGenericsNineView<ItemView:UIView, ItemModel>: UIView {
         // 更新自身高度
         let size = CGSize(width: self.bounds.width, height: self.totalHeight)
         self.frame.size = size
+//        self.invalidateIntrinsicContentSize()
     }
     // 手势的点击事件
     @objc func cellClicked(_ tap:UITapGestureRecognizer){
@@ -135,6 +136,9 @@ public class SLGenericsNineView<ItemView:UIView, ItemModel>: UIView {
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+//    public override var intrinsicContentSize: CGSize{
+//        return CGSize(width: totalWidth, height: totalHeight)
+//    }
 }
 
 
