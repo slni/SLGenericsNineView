@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SnapKit
 import SLGenericsNineView
 class ViewController: UIViewController {
     
@@ -24,67 +25,52 @@ class ViewController: UIViewController {
     }()
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        
-        initWithCode()
+//        initWithCode_snapKit()
+//        initWithCode()
         initWithXib()
     }
     
     func initWithCode(){
-        // 创建的时候一定要告诉view的宽度
-        let frame = CGRect(x: 0, y: 20, width: self.view.frame.width, height: 0)
-        demoView01 = SLGenericsNineView(frame: frame, map: { (view, model) in
+        demoView01 = SLGenericsNineView(totalWidth: self.view.frame.width, map: { (view, model) in
             view.nameLabel.text = model.name
             view.countLabel.text = model.count
         })
-        demoView01.backgroundColor = UIColor.red
-        // 上下左右的间距，默认为0
-        demoView01.set(edges: 20)
-        // 行间距，列间距
-        demoView01.verticalSpace = 10
-        demoView01.horizontalSpace = 10
-        // 每行显示的个数
-        demoView01.everyRowCount = 3
-        demoView01.itemClicked = { (itemView, itemModel, index) in
-            print(itemView)
-            print(itemModel)
-            print(index)
-        }
+        demoView01.frame.origin = CGPoint(x: 0, y: 100)
         self.view.addSubview(demoView01)
-        // 设置数据源
+        demoView01.dataArr = data
+    }
+    
+    func initWithCode_snapKit(){
+        demoView01 = SLGenericsNineView(totalWidth: self.view.frame.width, map: { (view, model) in
+            view.nameLabel.text = model.name
+            view.countLabel.text = model.count
+        })
+        self.view.addSubview(demoView01)
+        demoView01.snp.makeConstraints { (make) in
+            make.center.equalTo(self.view)
+        }
         demoView01.dataArr = data
     }
     
     func initWithXib(){
-        // 创建的时候一定要告诉view的宽度
-        let frame = CGRect(x: 0, y: self.view.frame.height/2 + 20, width: self.view.frame.width, height: 0)
-        demoView02 = SLGenericsNineView(frame: frame, map: { (view, model) in
+        demoView02 = SLGenericsNineView(totalWidth: self.view.frame.width, map: { (view, model) in
             view.nameLabel.text = model.name
             view.countLabel.text = model.count
         })
+        demoView02.frame.origin = CGPoint(x: 0, y: 100)
         demoView02.isCellLoadFromXib = true
-        demoView02.backgroundColor = UIColor.red
-        // 上下左右的间距，默认为0
-        demoView02.set(edges: 20)
-        // 行间距，列间距
-        demoView02.verticalSpace = 10
-        demoView02.horizontalSpace = 10
-        // 每行显示的个数
-        demoView02.everyRowCount = 4
-        demoView02.itemClicked = { (itemView, itemModel, index) in
-            print(itemView)
-            print(itemModel)
-            print(index)
-        }
         self.view.addSubview(demoView02)
-        // 设置数据源
         demoView02.dataArr = data
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        demoView01.dataArr = [CustomModel(name: "张三", count: "1")]
     }
     
     

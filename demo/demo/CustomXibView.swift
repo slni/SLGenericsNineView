@@ -15,6 +15,7 @@ class CustomXibView: UIView {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.backgroundColor = UIColor.red
     }
     
 }

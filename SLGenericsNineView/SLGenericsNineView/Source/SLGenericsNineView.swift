@@ -33,12 +33,17 @@ public class SLGenericsNineView<ItemView:UIView, ItemModel>: UIView {
     }
     /// 每个cell点击以后的回调闭包
     public var itemClicked:((_ itemView:ItemView, _ model:ItemModel, _ index:Int)->Void)?
+    /*
+    1:若使用frame布局,只需确定位置即可,尺寸自动计算.
+    2:若使用autolayout布局:只需确定位置即可,尺寸自动计算.
+    */
     /// - Parameters:
-    ///   - frame: 控件的frame,请确定控件的width
+    ///   - totalWidth: 控件的width
     ///   - map:映射函数,控件和模型直接的数据赋值关系
-    public init(frame: CGRect, map:@escaping (_ cell:ItemView, _ itemModel:ItemModel)->Void) {
+    public init(totalWidth: CGFloat, map:@escaping (_ cell:ItemView, _ itemModel:ItemModel)->Void) {
+        self.totalWidth = totalWidth
         self.map = map
-        super.init(frame: frame)
+        super.init(frame: CGRect(x: 0, y: 0, width: totalWidth, height: 0))
         self.backgroundColor = UIColor.gray
     }
     /// 上边距
@@ -72,13 +77,11 @@ public class SLGenericsNineView<ItemView:UIView, ItemModel>: UIView {
         }
     }
     /// 整体宽度
-    public var totalWidth:CGFloat{
-        return self.frame.width
-    }
+    public var totalWidth:CGFloat
     /// 整体高度
     public var totalHeight:CGFloat{
         guard let count = dataArr?.count else{
-            return 0
+            return self.frame.height
         }
         var rowCount = 0
         if count % everyRowCount == 0{
@@ -123,9 +126,10 @@ public class SLGenericsNineView<ItemView:UIView, ItemModel>: UIView {
             btn.addGestureRecognizer(tap)
         }
         // 更新自身高度
-        let size = CGSize(width: self.bounds.width, height: self.totalHeight)
+        let size = CGSize(width: self.totalWidth, height: self.totalHeight)
         self.frame.size = size
-//        self.invalidateIntrinsicContentSize()
+        // 通知控件固有尺寸变化
+        self.invalidateIntrinsicContentSize()
     }
     // 手势的点击事件
     @objc func cellClicked(_ tap:UITapGestureRecognizer){
@@ -136,9 +140,10 @@ public class SLGenericsNineView<ItemView:UIView, ItemModel>: UIView {
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-//    public override var intrinsicContentSize: CGSize{
-//        return CGSize(width: totalWidth, height: totalHeight)
-//    }
+    // 控件固有尺寸
+    public override var intrinsicContentSize: CGSize{
+        return CGSize(width: totalWidth, height: totalHeight)
+    }
 }
 
 
