@@ -7,35 +7,15 @@
 * Swift 4.0+
 
 ### Installation：
-<details>
-<summary>CocoaPods</summary>
-</br>
-<p>To integrate SLGenericsNineView into your Xcode project using <a href="http://cocoapods.org">CocoaPods</a>, specify it in your <code>Podfile</code>:</p>
+* CocoaPods
 
-<h4>- Integrate:</h4>
-<pre><code class="ruby language-ruby">pod 'SLGenericsNineView'</code></pre>
-
-</details>
-
-<details>
-<summary>Carthage</summary>
-<h4>waiting...</h4>
-</details>
-
-
-
-<video width="320" height="240" controls autoplay>
-  <source src="demoVideo.mp4" type="video/ogg">
-  <source src="demoVideo.mp4" type="video/mp4">
-  <source src="movie.webm" type="video/webm">
-  <object data="movie.mp4" width="320" height="240">
-    <embed width="320" height="240" src="movie.swf">
-  </object>
-</video>
+```
+pod 'SLGenericsNineView'
+```
 
 ### Usage
 > 通过泛型的思想完成九宫格布局，所有边距，大小可自定义。可传入自定义的view，自定义的model。通过map函数完成view和model的值对应关系。
-> ##只需要确定控件的位置, 其内容尺寸会自动计算, 和UILabel类似。
+> *只需要确定控件的位置, 其内容尺寸会自动计算, 和UILabel类似。*
 
 ### 1.通过frame布局
 
