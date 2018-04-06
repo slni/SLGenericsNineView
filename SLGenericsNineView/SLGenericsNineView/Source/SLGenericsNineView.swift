@@ -97,7 +97,8 @@ public class SLGenericsNineView<ItemView:UIView, ItemModel>: UIView {
     
     private func initCell() -> ItemView{
         if isCellLoadFromXib{
-            return Bundle.main.loadNibNamed(ItemView.nameOfClass, owner: nil, options: nil)?.last as! ItemView
+            let view = Bundle.main.loadNibNamed(ItemView.nameOfClass, owner: nil, options: nil)?.last as! ItemView
+            return view
         }else{
             return ItemView.init()
         }
