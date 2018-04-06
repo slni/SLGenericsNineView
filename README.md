@@ -24,7 +24,7 @@
 
 <video width="320" height="240" controls autoplay>
   <source src="demoVideo.mp4" type="video/ogg">
-  <source src="SLGenericsNineView/demoVideo.mp4" type="video/mp4">
+  <source src="demoVideo.mp4" type="video/mp4">
   <source src="movie.webm" type="video/webm">
   <object data="movie.mp4" width="320" height="240">
     <embed width="320" height="240" src="movie.swf">
