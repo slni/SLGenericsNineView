@@ -126,7 +126,7 @@ public class SLGenericsNineView<ItemView:UIView, ItemModel>: UIView {
             self.addSubview(btn)
             self.map(btn, data)
             // 添加点击手势
-            let tap = UITapGestureRecognizer(target: self, action:#selector(SLGenericsNineView.cellClicked(_:)))
+            let tap = UITapGestureRecognizer(target: self, action:#selector(self.didClicked(_:)))
             tap.numberOfTouchesRequired = 1
             tap.numberOfTapsRequired    = 1
             btn.addGestureRecognizer(tap)
@@ -138,7 +138,7 @@ public class SLGenericsNineView<ItemView:UIView, ItemModel>: UIView {
         self.invalidateIntrinsicContentSize()
     }
     // 手势的点击事件
-    @objc func cellClicked(_ tap:UITapGestureRecognizer){
+    @objc func didClicked(_ tap:UITapGestureRecognizer){
         if let cell = tap.view as? ItemView, let data = self.dataArr?[cell.tag]{
             self.itemClicked?(cell, data, cell.tag)
         }

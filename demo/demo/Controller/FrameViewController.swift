@@ -56,6 +56,11 @@ class FrameViewController: UIViewController {
             view.nameLabel.text = model.name
             view.countLabel.text = model.count
         })
+        demoView.itemClicked = {(view, model, index) in 
+            debugPrint(index)
+            debugPrint(view)
+            debugPrint(model)
+        }
         demoView.frame.origin = CGPoint(x: 0, y: 100)
         self.view.addSubview(demoView)
         demoView.dataArr = arr

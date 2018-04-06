@@ -27,6 +27,11 @@ class AutolayoutViewController: UIViewController {
             view.nameLabel.text = model.name
             view.countLabel.text = model.count
         })
+        demoView.itemClicked = {(view, model, index) in
+            debugPrint(index)
+            debugPrint(view)
+            debugPrint(model)
+        }
         self.view.addSubview(demoView)
         demoView.snp.makeConstraints { (make) in
             make.center.equalTo(self.view)

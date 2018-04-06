@@ -25,87 +25,132 @@
 
 ### Usage
 > 通过泛型的思想完成九宫格布局，所有边距，大小可自定义。可传入自定义的view，自定义的model。通过map函数完成view和model的值对应关系。
+> ##只需要确定控件的位置, 其内容尺寸会自动计算, 和UILabel类似。
 
-
-<img src="https://github.com/slni/SLGenericsNineView/blob/master/demoPic.png?raw=true" alt="SLGenericsNineView" title="SLGenericsNineView" width="557"/>
-
-用户可设置的参数：
-
-* topMargin    （上边距）
-* leftMargin   （左边距）
-* rightMargin  （右边距）
-* bottomMargin （底边距）
-* horizontalSpace  （水平间距）
-* verticalSpace    （垂直间距）
-* everyRowCount （每行显示的个数）
-* itemHeight （item高度）
-* totalWidth  （控件总宽度）
-
-会根据用户设置参数，自动计算出以下值：
-
-* itemWidth  （item宽度）
-* totalHeight （控件总高度）
-
+### 1.通过frame布局
 
 ```
 import SLGenericsNineView
-var demoView:SLGenericsNineView<CustomView,CustomModel>!
-override func viewDidLoad() {
-	super.viewDidLoad()
-	// 创建的时候一定要告诉view的宽度
-	let frame = CGRect(x: 0, y: 100, width: self.view.frame.width, height: 0)
-	demoView = SLGenericsNineView(frame: frame, map: { (view, model) in
-	    // 关联赋值关系
-	    view.nameLabel.text = model.name
-	    view.countLabel.text = model.count
-	})
-	demoView.backgroundColor = UIColor.red
-	// 上下左右的间距，默认为0
-	demoView.topMargin = 2
-	demoView.leftMargin = 4
-	demoView.rightMargin = 6
-	demoView.bottomMargin = 8
-	// 行间距，列间距
-	demoView.verticalSpace = 10
-	demoView.horizontalSpace = 10
-	// 每行显示的个数
-	demoView.everyRowCount = 3
-	self.view.addSubview(demoView)
-	// 设置数据源
-	let m1 = CustomModel(name: "张三", count: "1")
-	let m2 = CustomModel(name: "李四", count: "2")
-	let m3 = CustomModel(name: "王五", count: "3")
-	let m4 = CustomModel(name: "James", count: "4")
-	let m5 = CustomModel(name: "san", count: "5")
-	let m6 = CustomModel(name: "slni", count: "6")
-	let m7 = CustomModel(name: "Kevin", count: "7")
-	let arr = [m1, m2, m3, m4, m5, m6, m7]
-	demoView.dataArr = arr
-	
-	// 数据刷新(数据变化)
-	demoView.reloadData()	    
+class FrameViewController: UIViewController {
+
+    var demoView:SLGenericsNineView<CustomView,Person>!
+    lazy var arr:[Person] = {
+        return Person.getDataArr()
+    }()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = UIColor.white
+        initSubviews()
+}
+    
+    func initSubviews(){
+        demoView = SLGenericsNineView(totalWidth: self.view.frame.width, map: { (view, model) in
+            view.nameLabel.text = model.name
+            view.countLabel.text = model.count
+        })
+        demoView.frame.origin = CGPoint(x: 0, y: 100)
+        self.view.addSubview(demoView)
+        demoView.dataArr = arr
+    }
+    
+}
+
+```
+
+
+### 2.支持autolayout布局
+
+```
+import SLGenericsNineView
+class AutolayoutViewController: UIViewController {
+
+    var demoView:SLGenericsNineView<CustomView,Person>!
+    lazy var arr:[Person] = {
+        return Person.getDataArr()
+    }()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = UIColor.white
+        initSubviews()
+    }
+    
+    func initSubviews(){
+        demoView = SLGenericsNineView(totalWidth: self.view.frame.width, map: { (view, model) in
+            view.nameLabel.text = model.name
+            view.countLabel.text = model.count
+        })
+        self.view.addSubview(demoView)
+        demoView.snp.makeConstraints { (make) in
+            make.center.equalTo(self.view)
+        }
+        demoView.dataArr = arr
+    }
+
+}
+
+```
+
+### 3.支持子控件xib加载
+```
+//CustomXibView
+var demoView:SLGenericsNineView<CustomXibView,Person>!
+demoView = SLGenericsNineView(totalWidth: self.view.frame.width, map: { (view, model) in
+            view.nameLabel.text = model.name
+            view.countLabel.text = model.count
+})
+demoView.frame.origin = CGPoint(x: 0, y: 100)
+// 声明子控件从xib中加载
+demoView.isCellLoadFromXib = true
+self.view.addSubview(demoView)
+demoView.dataArr = arr
+```
+
+### 4.其他方法
+* 修改每行显示的个数
+
+```
+demoView.everyRowCount = 2
+demoView.reLayoutSubViews()
+
+```
+
+* 刷新数据
+
+```
+demoView.reloadData()
+```
+
+* 点击事件监听
+
+```
+demoView.itemClicked = {(view, model, index) in 
+      debugPrint(index)
+      debugPrint(view)
+      debugPrint(model)
 }
 ```
 
-```
-// 自定义view和自定义model直接关联赋值显示的闭包
-private var map:((_ cell:ItemView, _ itemModel:ItemModel)->Void)
-```
+* 修改边距
 
 ```
-// 获取具体cell的点击回调
-demoView.itemClicked = { (itemView, itemModel, index) in
-    print(itemView)
-    print(itemModel)
-    print(index)
-}
+/// 上边距
+public var topMargin:CGFloat    
+/// 左边距
+public var leftMargin:CGFloat   
+/// 右边距
+public var rightMargin:CGFloat  
+/// 下边距
+public var bottomMargin:CGFloat 
+/// 设置边距
+public func set(edges:CGFloat)
+/// 水平间距
+public var horizontalSpace:CGFloat 
+/// 垂直间距
+public var verticalSpace:CGFloat   
 ```
 
-```
-// 每个小view的宽度获取
-demoView.itemWidth
-// demoView的整体高度获取
-demoView.totalHeight
+<img src="https://github.com/slni/SLGenericsNineView/blob/master/demoPic.png?raw=true" alt="SLGenericsNineView" title="SLGenericsNineView" width="557"/>
 
-```
 
