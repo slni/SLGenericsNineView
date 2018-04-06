@@ -7,72 +7,66 @@
 //
 
 import UIKit
-import SnapKit
-import SLGenericsNineView
 class ViewController: UIViewController {
     
-    var demoView01:SLGenericsNineView<CustomView,CustomModel>!
-    var demoView02:SLGenericsNineView<CustomXibView,CustomModel>!
-    lazy var data:[CustomModel] = {
-        let m1 = CustomModel(name: "张三", count: "1")
-        let m2 = CustomModel(name: "李四", count: "2")
-        let m3 = CustomModel(name: "王五", count: "3")
-        let m4 = CustomModel(name: "James", count: "4")
-        let m5 = CustomModel(name: "san", count: "5")
-        let m6 = CustomModel(name: "slni", count: "6")
-        let m7 = CustomModel(name: "Kevin", count: "7")
-        return [m1, m2, m3, m4, m5, m6, m7]
+    var arr = ["frame布局", "autolayout布局","支持xib加载"]
+    lazy var tableview:UITableView = {
+        let table = UITableView()
+        table.dataSource = self
+        table.delegate = self
+        return table
     }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-//        initWithCode_snapKit()
-//        initWithCode()
-        initWithXib()
+        title = "首页"
+        tableview.frame = self.view.frame
+        self.view.addSubview(tableview)
     }
-    
-    func initWithCode(){
-        demoView01 = SLGenericsNineView(totalWidth: self.view.frame.width, map: { (view, model) in
-            view.nameLabel.text = model.name
-            view.countLabel.text = model.count
-        })
-        demoView01.frame.origin = CGPoint(x: 0, y: 100)
-        self.view.addSubview(demoView01)
-        demoView01.dataArr = data
-    }
-    
-    func initWithCode_snapKit(){
-        demoView01 = SLGenericsNineView(totalWidth: self.view.frame.width, map: { (view, model) in
-            view.nameLabel.text = model.name
-            view.countLabel.text = model.count
-        })
-        self.view.addSubview(demoView01)
-        demoView01.snp.makeConstraints { (make) in
-            make.center.equalTo(self.view)
-        }
-        demoView01.dataArr = data
-    }
-    
-    func initWithXib(){
-        demoView02 = SLGenericsNineView(totalWidth: self.view.frame.width, map: { (view, model) in
-            view.nameLabel.text = model.name
-            view.countLabel.text = model.count
-        })
-        demoView02.frame.origin = CGPoint(x: 0, y: 100)
-        demoView02.isCellLoadFromXib = true
-        self.view.addSubview(demoView02)
-        demoView02.dataArr = data
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
-        demoView01.dataArr = [CustomModel(name: "张三", count: "1")]
-    }
-    
     
 }
+
+extension ViewController:UITableViewDataSource{
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return arr.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cellId = "cellId"
+        var cell = tableView.dequeueReusableCell(withIdentifier: cellId)
+        if cell == nil{
+            cell = UITableViewCell(style: .default, reuseIdentifier: cellId)
+        }
+        cell?.textLabel?.text = arr[indexPath.row]
+        return cell!
+    }
+    
+}
+
+extension ViewController:UITableViewDelegate{
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let title = arr[indexPath.row]
+        switch indexPath.row {
+        case 0:
+            let vc = FrameViewController()
+            vc.title = title
+            self.navigationController?.pushViewController(vc, animated: true)
+        case 1:
+            let vc = AutolayoutViewController()
+            vc.title = title
+            self.navigationController?.pushViewController(vc, animated: true)
+        case 2:
+            let vc = XibloadViewController()
+            vc.title = title
+            self.navigationController?.pushViewController(vc, animated: true)
+        default:
+            break
+        }
+    }
+}
+
+
+
+
 

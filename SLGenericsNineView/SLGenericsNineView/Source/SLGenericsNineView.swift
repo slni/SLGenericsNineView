@@ -31,6 +31,10 @@ public class SLGenericsNineView<ItemView:UIView, ItemModel>: UIView {
             creatAllItems()
         }
     }
+    /// 重新布局
+    public func reLayoutSubViews(){
+        creatAllItems()
+    }
     /// 每个cell点击以后的回调闭包
     public var itemClicked:((_ itemView:ItemView, _ model:ItemModel, _ index:Int)->Void)?
     /*
@@ -98,6 +102,7 @@ public class SLGenericsNineView<ItemView:UIView, ItemModel>: UIView {
     private func initCell() -> ItemView{
         if isCellLoadFromXib{
             let view = Bundle.main.loadNibNamed(ItemView.nameOfClass, owner: nil, options: nil)?.last as! ItemView
+            view.autoresizingMask = [.flexibleBottomMargin,.flexibleRightMargin]
             return view
         }else{
             return ItemView.init()
